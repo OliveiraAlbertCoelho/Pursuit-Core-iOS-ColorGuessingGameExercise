@@ -9,11 +9,16 @@
 import UIKit
 
 class ViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        gameColor.backgroundColor = game.giveRandomUIColor()
+    }
    var game = RGBColors()
     var counter = 0
-    @IBOutlet weak var checkBug: UILabel!
+    var highScore = 0
     @IBOutlet weak var score: UILabel!
     @IBOutlet weak var gameColor: UIView!
+    @IBOutlet weak var highScoreLabel: UILabel!
     
     @IBAction func redButton(_ sender: UIButton) {
         let red = "red"
@@ -21,7 +26,8 @@ class ViewController: UIViewController {
            updateScore()
             changeColor()
         } else {
-            //call wrong function
+            getHighScore()
+                resetScore()
         }
     }
     
@@ -31,6 +37,9 @@ class ViewController: UIViewController {
             updateScore()
             changeColor()
 
+        }else {
+            getHighScore()
+            resetScore()
         }
        
     }
@@ -42,34 +51,31 @@ class ViewController: UIViewController {
         if blue == game.getBiggest(){
             updateScore()
             changeColor()
+            
 
+        }else {
+            getHighScore()
+            resetScore()
         }
     }
     
-    @IBOutlet weak var SOMETHING: UILabel!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //changeColor()
-        gameColor.backgroundColor = game.giveRandomUIColor()
-    }
-    
     func updateScore() {
+    
         counter += 1
-        score.text = counter.description
+        score.text = "Score: \(counter.description)"
     }
-//    func incrementCounter (arr:String){
-//         changeColor()
-//        checkBug.text = game.getBiggest()
-//        let please = game.getBiggest()
-//        if arr == please  {
-//             SOMETHING.text = "YES"
-//          counter += 1
-//        }else {
-//            SOMETHING.text = "NO"
-//        }
-//    }
+    func resetScore(){
+        counter = 0
+        score.text = "Score: \(counter.description)"
+    }
+    func getHighScore(){
+        if counter > highScore {
+            highScore = counter
+             highScoreLabel.text = "High Score: \(highScore.description)"
+        }
+    
+    }
     func changeColor(){
-        
         self.game = RGBColors()
         gameColor.backgroundColor = game.giveRandomUIColor()
     }
